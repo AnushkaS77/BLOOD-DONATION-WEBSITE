@@ -58,21 +58,20 @@
           name="amount"
           type="number"
           max="5"
-          value="0"
+          min="1"
           class="browser-default"
         />
         <span class="red-text">P</span><br />
-        <a
-          onclick="document.getElementById('amountForm').submit();"
-          class="btn-floating btn-large waves-effect waves-light red"
-          ><i class="material-icons">add</i></a
-        >
+        <button type="submit" class="btn-floating btn-large waves-effect waves-light red">
+          <i class="material-icons">add</i>
+        </button>
       </form>
-
+    
       <h3 class="indigo-text container flow-text">
         Last donated <%= user.lastDonated %>
       </h3>
     </div>
+    
 
     <!--Import Font Awesome-->
     <link
@@ -82,8 +81,8 @@
       crossorigin="anonymous"
     />
     <%- include footer.ejs %>
-    <script src="jquery.min.js"></script>
-    <script src="materialize.min.js"></script>
-    <script src="donate.js"></script>
+    <script src="/public/js/jquery.min.js"></script>
+    <script src="/public/js/materialize.min.js"></script>
+    <script src="/public/js/donate.js"></script>
   </body>
 </html>

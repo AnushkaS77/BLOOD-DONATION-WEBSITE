@@ -84,28 +84,23 @@ app.post('/register', (req, res) => {
 });
 
 app.post('/donate', (req, res) => {
-  if (req.body.amount == undefined || req.body.amount <= 0) {
-    res.redirect('back');
-    return;
+  if (!req.body.amount || req.body.amount <= 0) {
+    return res.redirect('back');  // Redirect if invalid amount
   }
-  userModel.findOne({ phone: req.signedCookies.user }, function (err, user) {
-    if (err) res.send(err);
-    if (!user) {
-      res.redirect('/logout');
-      console.error('WTF should not happen.');
-      return;
-    }
+
+  // Find the user by the signed cookie
+  userModel.findOne({ phone: req.signedCookies.user }, (err, user) => {
+    if (err) return res.send(err.message);
+    if (!user) return res.redirect('/logout');
+
+    // Update the user's amount and save
     user.amount += parseFloat(req.body.amount);
-    user
-      .save({
-        validateBeforeSave: true,
-      })
-      .then(res.redirect('/donate'))
-      .catch((err) => {
-        res.send(err.message);
-      });
+    user.save()
+      .then(() => res.redirect('/donate'))
+      .catch((err) => res.send(err.message));
   });
 });
+
 
 app.get('/donate', (req, res) => {
   debug(req.signedCookies.user);
